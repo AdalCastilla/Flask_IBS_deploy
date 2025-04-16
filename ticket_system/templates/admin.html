@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="admin-page">
+    <h1 class="mb-4">Panel de Administración</h1>
+    
+    <!-- Sección de creación de usuarios -->
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h3 class="mb-0">Crear Nuevo Usuario</h3>
+        </div>
+        <div class="card-body">
+            <form method="POST" action="{{ url_for('main.crear_usuario') }}">
+                <div class="mb-3">
+                    <select class="form-select" name="tipo_usuario" required>
+                        <option value="">Selecciona el tipo de usuario</option>
+                        <option value="cliente">Cliente</option>
+                        <option value="tecnico">Técnico</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <input type="text" class="form-control" name="nombre_usuario" placeholder="Nombre de usuario" required>
+                </div>
+                <div class="mb-3">
+                    <input type="email" class="form-control" name="correo" placeholder="Correo electrónico" required>
+                </div>
+                <div class="mb-3">
+                    <input type="password" class="form-control" name="contraseña" placeholder="Contraseña" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Crear Usuario</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Sección de usuarios registrados -->
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h3 class="mb-0">Usuarios Registrados</h3>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Tipo</th>
+                            <th>Correo</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for usuario in usuarios %}
+                        <tr>
+                            <td>{{ usuario.nombre_usuario }}</td>
+                            <td>
+                                <span class="badge 
+                                    {% if usuario.tipo_usuario == 'admin' %}bg-danger
+                                    {% elif usuario.tipo_usuario == 'tecnico' %}bg-warning text-dark
+                                    {% else %}bg-info text-dark{% endif %}">
+                                    {{ usuario.tipo_usuario }}
+                                </span>
+                            </td>
+                            <td>{{ usuario.correo }}</td>
+                            <td>
+                                <form method="POST" action="{{ url_for('main.eliminar_usuario', usuario_id=usuario.id) }}" onsubmit="return confirm('¿Estás seguro de eliminar este usuario?');">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">
+                                        <i class="bi bi-trash"></i> Eliminar
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% for ticket in tickets %}
+    <div class="ticket-item">
+    <h4>Ticket #{{ ticket.id }} - {{ ticket.titulo }}</h4>
+    <p>{{ ticket.descripcion }}</p>
+    
+    <!-- Botón de Eliminar -->
+    <form action="{{ url_for('main.eliminar_ticket', ticket_id=ticket.id) }}" method="POST" 
+          onsubmit="return confirm('¿Seguro que quieres eliminar este ticket?');">
+        <button type="submit" class="btn btn-danger btn-sm">
+            <i class="fas fa-trash"></i> Eliminar
+        </button>
+    </form>
+    </div>
+    {% endfor %}
+
+    <!-- Sección de historial de tickets -->
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h3 class="mb-0">Historial de Tickets</h3>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Cliente</th>
+                            <th>Técnico</th>
+                            <th>Descripción</th>
+                            <th>Estado</th>
+                            <th>Fecha</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for ticket in tickets %}
+                        <tr>
+                            <td>{{ ticket.id }}</td>
+                            <td>{{ ticket.cliente.nombre_usuario }}</td>
+                            <td>
+                                {% if ticket.tecnico %}
+                                    {{ ticket.tecnico.nombre_usuario }}
+                                {% else %}
+                                    <span class="text-muted">Sin asignar</span>
+                                {% endif %}
+                            </td>
+                            <td class="text-truncate" style="max-width: 200px;">
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#ticketModal{{ ticket.id }}">
+                                    {{ ticket.descripcion|truncate(50) }}
+                                </a>
+                            </td>
+                            <td>
+                                <span class="badge {% if ticket.estado == 'resuelto' %}bg-success{% else %}bg-warning text-dark{% endif %}">
+                                    {{ ticket.estado }}
+                                </span>
+                            </td>
+                            <td>{{ ticket.fecha_creacion.strftime('%d/%m/%Y %H:%M') }}</td>
+                        </tr>
+                        
+                        <!-- Modal para detalles del ticket -->
+                        <div class="modal fade" id="ticketModal{{ ticket.id }}" tabindex="-1">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Detalles del Ticket #{{ ticket.id }}</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <p><strong>Cliente:</strong> {{ ticket.cliente.nombre_usuario }}</p>
+                                                <p><strong>Estado:</strong> 
+                                                    <span class="badge {% if ticket.estado == 'resuelto' %}bg-success{% else %}bg-warning text-dark{% endif %}">
+                                                        {{ ticket.estado }}
+                                                    </span>
+                                                </p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p><strong>Fecha creación:</strong> {{ ticket.fecha_creacion.strftime('%d/%m/%Y %H:%M') }}</p>
+                                                {% if ticket.estado == 'resuelto' %}
+                                                <p><strong>Resuelto por:</strong> {{ ticket.tecnico.nombre_usuario if ticket.tecnico else 'N/A' }}</p>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <h6>Descripción:</h6>
+                                            <div class="p-3 bg-light rounded">
+                                                {{ ticket.descripcion }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,387 @@
+:root {
+    /* Paleta corporativa IBS */
+    --ibs-blue: #04bcd4;
+    --ibs-dark-blue: #1a667a;
+    --ibs-accent: #e74c3c;
+    --ibs-light: #f8f9fa;
+    --ibs-gray: #6c757d;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--ibs-light);
+    color: #333;
+}
+
+/* ========= LOGIN ========= */
+.login-container {
+    width: 380px;
+    margin: 80px auto;
+    padding: 30px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 86, 179, 0.1);
+    border-top: 4px solid var(--ibs-blue);
+}
+
+.login-container h1 {
+    color: var(--ibs-dark-blue);
+    margin-bottom: 25px;
+    font-weight: 600;
+}
+
+/* ========= FORMULARIOS ========= */
+input, select, button, textarea {
+    margin: 12px 0;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: all 0.3s;
+    width: 100%;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: var(--ibs-blue);
+    box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.1);
+    outline: none;
+}
+
+button {
+    background-color: var(--ibs-blue);
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-size: 14px;
+    width: auto;
+    padding: 12px 25px;
+}
+
+button:hover {
+    background-color: var(--ibs-dark-blue);
+    transform: translateY(-1px);
+}
+
+/* ========= TICKETS ========= */
+.ticket-list {
+    width: 85%;
+    margin: 30px auto;
+    background: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    border-left: 4px solid var(--ibs-blue);
+}
+
+.ticket-item {
+    padding: 18px;
+    border-bottom: 1px solid #eee;
+    transition: all 0.2s;
+}
+
+.ticket-item:hover {
+    background-color: rgba(0, 86, 179, 0.03);
+}
+
+/* ========= PANEL ADMIN ========= */
+.admin-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    width: 90%;
+    margin: 40px auto;
+}
+
+.admin-option {
+    background: white;
+    border-radius: 8px;
+    padding: 25px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+    cursor: pointer;
+    transition: all 0.3s;
+    text-align: center;
+    border-top: 3px solid var(--ibs-blue);
+}
+
+.admin-option:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 86, 179, 0.1);
+}
+
+/* ========= NOTIFICACIONES ========= */
+.flash-messages {
+    margin: 20px auto;
+    width: 85%;
+}
+
+.alert-error, .flash.error {
+    background-color: #ffebee;
+    color: #c62828;
+    border-left: 4px solid #e53935;
+}
+
+.alert-success, .flash.success {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border-left: 4px solid #43a047;
+}
+
+.flash {
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+/* ========= ARCHIVOS ADJUNTOS ========= */
+.file-upload-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    background-color: rgba(4, 188, 212, 0.1);
+    border: 2px dashed var(--ibs-blue);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s;
+    color: var(--ibs-dark-blue);
+    font-weight: 500;
+    margin: 10px 0;
+}
+
+.file-upload-label:hover {
+    background-color: rgba(4, 188, 212, 0.2);
+}
+
+.file-upload-label i {
+    margin-right: 8px;
+    color: var(--ibs-blue);
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.file-hint {
+    display: block;
+    color: var(--ibs-gray);
+    font-size: 13px;
+    margin-top: -8px;
+    margin-bottom: 10px;
+}
+
+.ticket-attachment, .response-attachment {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 12px;
+    margin-top: 10px;
+    background-color: rgba(4, 188, 212, 0.05);
+    border-radius: 6px;
+    border-left: 3px solid var(--ibs-blue);
+}
+
+.ticket-attachment a, .response-attachment a {
+    color: var(--ibs-dark-blue);
+    text-decoration: none;
+    margin-left: 8px;
+    transition: color 0.2s;
+}
+
+.ticket-attachment a:hover, .response-attachment a:hover {
+    color: var(--ibs-blue);
+    text-decoration: underline;
+}
+
+.response-attachment {
+    background-color: rgba(231, 76, 60, 0.05);
+    border-left-color: var(--ibs-accent);
+}
+
+.response-attachment a {
+    color: var(--ibs-accent);
+}
+
+/* ========= PORTAL TÉCNICO ========= */
+.technician-page {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+.ticket-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.client-info {
+    color: var(--ibs-dark-blue);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.ticket-content {
+    background-color: rgba(4, 188, 212, 0.05);
+    padding: 15px;
+    border-radius: 6px;
+    margin: 10px 0;
+}
+
+.ticket-title {
+    font-weight: 600;
+    color: var(--ibs-dark-blue);
+    margin-bottom: 8px;
+}
+
+.ticket-description {
+    color: var(--ibs-gray);
+    white-space: pre-line;
+    line-height: 1.5;
+}
+
+.btn-resolve {
+    background-color: #27ae60 !important;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-resolve:hover {
+    background-color: #219653 !important;
+}
+
+/* ========= PORTAL CLIENTE ========= */
+.client-page {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+.ticket-form {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 86, 179, 0.1);
+    border-top: 4px solid var(--ibs-blue);
+    margin-bottom: 30px;
+}
+
+/* ========= ESTADOS ========= */
+.status-pendiente {
+    color: var(--ibs-accent);
+    font-weight: 500;
+}
+
+.status-resuelto {
+    color: #27ae60;
+    font-weight: 500;
+}
+
+/* ========= RESPONSIVE ========= */
+@media (max-width: 768px) {
+    .login-container {
+        width: 90%;
+        margin: 50px auto;
+    }
+    
+    .ticket-list, .admin-options {
+        width: 95%;
+    }
+    
+    .ticket-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+    
+    .technician-page, .client-page {
+        padding: 0 15px;
+    }
+}
+
+/* COMPONENTES EXISTENTES */
+.logo-container {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.logo {
+    width: 200px;
+    height: auto;
+}
+
+.table-responsive {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.badge.bg-danger {
+    background-color: #dc3545!important;
+}
+
+.badge.bg-warning {
+    background-color: #ffc107!important;
+}
+
+.badge.bg-info {
+    background-color: #0dcaf0!important;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.file-upload-label {
+    cursor: pointer;
+    padding: 8px 12px;
+    background: #f8f9fa;
+    border: 1px dashed #ccc;
+    border-radius: 4px;
+    display: inline-block;
+}
+.file-upload-label:hover {
+    background: #e9ecef;
+}
+#file-preview {
+    background: #f8f9fa;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #eee;
+}
+
+.password-container {
+    position: relative;
+    width: 100%;
+}
+
+.password-container input {
+    padding-right: 40px; /* Espacio para el ícono */
+    width: 100%;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #777;
+    z-index: 2;
+}
+
+.toggle-password:hover {
+    color: #333;
+}
+
+.invalid-feedback {
+    display: none;
+    color: #dc3545;
+    margin-top: -0.5rem;
+    margin-bottom: 1rem;
+}

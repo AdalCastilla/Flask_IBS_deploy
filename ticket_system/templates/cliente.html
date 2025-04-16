@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="client-page">
+    <h1>Portal de Cliente</h1>
+    <div class="login-container">
+        <h2>Crear Nuevo Ticket</h2>
+        <form method="POST" action="{{ url_for('main.cliente') }}" enctype="multipart/form-data">
+            <div class="form-group">
+                <input type="text" name="ticket-title" class="form-control" placeholder="Título del ticket*" required>
+            </div>
+            
+            
+            <textarea name="ticket-description" rows="6" placeholder="Describe tu problema en detalle..." required></textarea>
+            
+            
+            <div class="form-group">
+                <label for="ticket-file" class="file-upload-label">
+                    <i class="fa fa-paperclip"></i> 
+                    <span id="file-name">Adjuntar archivo (PDF, imagen)</span>
+                    <input type="file" id="ticket-file" name="archivo" accept=".pdf,.jpg,.jpeg,.png" style="display: none;">
+                </label>
+                <small class="file-hint">Tamaño máximo: 100MB</small>
+                
+                <!-- Esta es la novedad: contenedor para mostrar el nombre -->
+                <div id="file-preview" style="margin-top: 10px; display: none;">
+                    <i class="fa fa-file"></i> 
+                    <span id="preview-name"></span>
+                    <button type="button" id="remove-file" class="btn btn-sm btn-danger" style="margin-left: 10px;">
+                        <i class="fa fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <button type="submit" class="btn-submit">Enviar Ticket</button>
+        </form>
+    </div>
+
+    <div class="ticket-list">
+        <h2>Historial de Tickets</h2>
+        {% for ticket in tickets %}
+            <div class="ticket-item">
+                <h3>Ticket #{{ ticket.id }} - {{ ticket.titulo }}</h3>
+                <p class="ticket-description">{{ ticket.descripcion }}</p>
+                <p class="ticket-meta"><strong>Estado:</strong> <span class="status-{{ ticket.estado }}">{{ ticket.estado }}</span></p>
+                <p class="ticket-meta"><strong>Fecha:</strong> {{ ticket.fecha_creacion.strftime('%Y-%m-%d %H:%M') }}</p>
+                
+                {% if ticket.archivo_nombre %}
+                <div class="ticket-attachment">
+                    <i class="fa fa-paperclip"></i>
+                    <a href="{{ url_for('static', filename='uploads/' + ticket.archivo_nombre) }}" 
+                       target="_blank" 
+                       download="{{ ticket.archivo_nombre }}">
+                        {{ ticket.archivo_nombre }}
+                    </a>
+                </div>
+                {% endif %}
+                
+                {% if ticket.respuesta_archivo_nombre %}
+                <div class="response-attachment">
+                    <strong>Respuesta adjunta:</strong>
+                    <a href="{{ url_for('static', filename='uploads/' + ticket.respuesta_archivo_nombre) }}" 
+                       target="_blank" 
+                       download="{{ ticket.respuesta_archivo_nombre }}">
+                        {{ ticket.respuesta_archivo_nombre }}
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+

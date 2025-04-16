@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="login-container">
+
+    <div class="logo-container">
+        <img src="{{ url_for('static', filename='images/logo_ibs.png') }}" alt="Logo_IBS" class="logo">
+    </div>
+    
+    <h1>Iniciar Sesión</h1>
+    
+    
+    <!-- Mostrar mensajes flash -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+    
+    <form method="POST">
+        <input type="text" name="username" placeholder="Usuario" required>
+        <div class="password-container">
+            <input type="password" name="password" id="password" placeholder="Contraseña" required>
+            <span class="toggle-password" id="togglePassword">
+                <i class="fa fa-eye"></i>
+            </span>
+        </div>
+        <button type="submit">Iniciar Sesión</button>
+    </form>
+</div>
+{% endblock %}

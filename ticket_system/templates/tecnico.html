@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="technician-page">
+    <h1>Portal de Técnico</h1>
+    <div class="ticket-list">
+        <h2>Tickets Pendientes</h2>
+        {% for ticket in tickets %}
+            <div class="ticket-item">
+                <div class="ticket-header">
+                    <h3>Ticket #{{ ticket.id }}</h3>
+                    <span class="client-info">Cliente: {{ ticket.cliente.nombre_usuario }}</span>
+                </div>
+                
+                <div class="ticket-content">
+                    <p class="ticket-title">{{ ticket.titulo }}</p>
+                    <p class="ticket-description">{{ ticket.descripcion }}</p>
+                    
+                    {% if ticket.archivo_nombre %}
+                    <div class="ticket-attachment">
+                        <i class="fas fa-paperclip"></i>
+                        <a href="{{ url_for('static', filename='uploads/' + ticket.archivo_nombre) }}" 
+                           target="_blank" 
+                           download>
+                            {{ ticket.archivo_nombre }}
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <form method="POST" action="{{ url_for('main.responder_ticket', ticket_id=ticket.id) }}" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <textarea name="respuesta" rows="4" placeholder="Describe la solución aplicada..." required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="archivo-{{ ticket.id }}" class="file-upload-label">
+                            <i class="fas fa-paperclip"></i> Adjuntar evidencia (PDF, imagen)
+                            <input type="file" id="archivo-{{ ticket.id }}" name="archivo" accept=".pdf,.jpg,.jpeg,.png">
+                        </label>
+                        <small class="file-hint">Máx. 5MB - Opcional</small>
+                    </div>
+                    
+                    <button type="submit" class="btn-resolve">
+                        <i class="fas fa-check-circle"></i> Marcar como Resuelto
+                    </button>
+                </form>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
